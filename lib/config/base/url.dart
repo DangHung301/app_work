@@ -1,0 +1,1 @@
+const String baseImg = 'assets/images';
