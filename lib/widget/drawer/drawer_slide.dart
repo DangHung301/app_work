@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:recruit_app/config/base/di.dart';
+import 'package:recruit_app/presentation/tabbar_screen/bloc/main_cubit.dart';
+import 'package:recruit_app/presentation/tabbar_screen/ui/tabbar_item.dart';
+import 'package:recruit_app/widget/menu/type_menu.dart';
 
 class DrawerSlide {
   static void navigatorSlide({
@@ -22,63 +26,36 @@ class DrawerSlide {
           final tween = Tween(end: end, begin: begin);
           final offsetAnimation = animation.drive(tween);
 
-          if(isLeft) {
-            return Stack(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Container(
-                        color: Colors.black12,
-                        child: SlideTransition(
-                          position: offsetAnimation,
-                          child: screen,
-                        ),
+          return Stack(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: Container(
+                      color: Colors.black12,
+                      child: SlideTransition(
+                        position: offsetAnimation,
+                        child: screen,
                       ),
                     ),
-                    Expanded(
-                      flex: 4,
-                      child: GestureDetector(
-                        child: Container(color: Colors.black12),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: GestureDetector(
+                      child: Container(color: Colors.black12),
+                      onTap: () {
+                        getIt<MainCubit>().selectTab(TabBarType.home);
+                        selectHomeMenu();
+                        Navigator.pop(context);
+                      },
                     ),
-                  ],
-                )
-              ],
-            );
-          } else {
-            return Stack(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: GestureDetector(
-                        child: Container(color: Colors.black12),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 6,
-                      child: Container(
-                        color: Colors.black12,
-                        child: SlideTransition(
-                          position: offsetAnimation,
-                          child: screen,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            );
-          }
+                  ),
+                ],
+              )
+            ],
+          );
+
         },
         opaque: false,
       ),

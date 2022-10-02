@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:recruit_app/config/base/base_cubit.dart';
 import 'package:recruit_app/presentation/tabbar_screen/bloc/main_state.dart';
 import 'package:recruit_app/presentation/tabbar_screen/ui/tabbar_item.dart';
@@ -11,7 +10,7 @@ class MainCubit extends BaseCubit<MainState> {
       BehaviorSubject<TabBarType>.seeded(TabBarType.home);
 
   Stream<TabBarType> get selectTabBar => _selectTabBar.stream;
-String a = 's';
+
   void selectTab(TabBarType tab) {
     _selectTabBar.sink.add(tab);
   }

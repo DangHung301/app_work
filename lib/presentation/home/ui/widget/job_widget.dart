@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:recruit_app/until/const/color.dart';
 
 class JobWidget extends StatelessWidget {
   final String nameJob;

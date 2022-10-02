@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:recruit_app/config/base/di.dart';
 import 'package:recruit_app/config/local/prefs_service.dart';
 import 'package:recruit_app/presentation/splash/bloc/app_state.dart';
 import 'package:recruit_app/presentation/splash/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  configureDependencies();
   await PrefsService.init();
   runApp(const MyApp());
 }

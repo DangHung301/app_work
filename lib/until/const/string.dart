@@ -16,4 +16,17 @@ class StringConst {
   static const String danh_sach_cong_viec_da_ung_tuyen = 'Danh sách công việc đã ứng tuyển';
   static const String thong_tin_ca_nhan = 'Thông tin cá nhân';
   static const String dang_xuat = 'Đăng xuất';
+  static const String chi_tiet_cong_viec = 'Chi tiết công việc';
+  static const String thong_tin_chung = 'Thông tin chung';
+  static const String muc_luong = 'Mức lương';
+  static const String gioi_tinh = 'Giới tính';
+  static const String so_luong_can_tuyen = 'Số lượng cần tuyển';
+  static const String kinh_nghiem = 'Kinh nghiệm';
+  static const String dia_chi = 'Địa chỉ';
+  static const String trinh_do_ngoai_ngu = 'Trình độ ngoại ngữ';
+  static const String yeu_cau_khac = 'Yêu cầu khác';
+  static const String ten_cong_ty = 'Tên công ty';
+  static const String gioi_thieu = 'Giới thiệu';
+  static const String thoi_gian_tuyen_dung = 'Thời gian tuyển dụng';
+  static const String thong_tin_cong_ty = 'Thông tin công ty';
 }

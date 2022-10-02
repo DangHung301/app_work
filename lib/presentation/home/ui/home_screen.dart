@@ -21,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeCubit cubit = HomeCubit();
+
   @override
   void initState() {
     super.initState();
@@ -35,8 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: GestureDetector(
             onTap: () {
               DrawerSlide.navigatorSlide(
-                  context: context,
-                  screen: const MenuWidget());
+                  context: context, screen: const MenuWidget());
             },
             child: const Icon(Icons.menu)),
       ),
@@ -54,9 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 20,
               ),
-              _congViec(onTap: () {
-
-              }),
+              _congViec(onTap: () {}),
               const SizedBox(
                 height: 20,
               ),
@@ -115,7 +113,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: data
-                      .map((e) => JobWidget(nameJob: e.job, icon: e.img))
+                      .map((e) => GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        JobsScreen(cubit: cubit)));
+                          },
+                          child: JobWidget(nameJob: e.job, icon: e.img)))
                       .toList(),
                 ),
               );
@@ -135,13 +141,17 @@ class _HomeScreenState extends State<HomeScreen> {
               StringConst.cong_viec,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
-
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => JobsScreen(cubit: cubit)));
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => JobsScreen(cubit: cubit)));
               },
-              child: const Icon(Icons.navigate_next, color: colorPrimary1,),
+              child: const Icon(
+                Icons.navigate_next,
+                color: colorPrimary1,
+              ),
             )
           ],
         ),
@@ -157,13 +167,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: data
                       .map((e) => GestureDetector(
-                    onTap: onTap,
-                        child: JobCompanyWidget(
-                            image: e.logoImage,
-                            title: e.title,
-                            rangeSalary: e.rangeSalary,
-                            address: e.address),
-                      ))
+                            onTap: onTap,
+                            child: JobCompanyWidget(
+                              image: e.logoImage,
+                              title: e.title,
+                              rangeSalary: e.rangeSalary,
+                              address: e.address,
+                              id: '',
+                            ),
+                          ))
                       .toList(),
                 ),
               );

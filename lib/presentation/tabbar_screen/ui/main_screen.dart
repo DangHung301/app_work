@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:recruit_app/config/base/di.dart';
 import 'package:recruit_app/presentation/tabbar_screen/bloc/main_cubit.dart';
 import 'package:recruit_app/presentation/tabbar_screen/ui/tabbar_item.dart';
 import 'package:recruit_app/presentation/tabbar_screen/ui/widgets/custom_navigator_tabbar.dart';
@@ -13,7 +14,7 @@ class MainTabBarView extends StatefulWidget {
 
 class _MainTabBarViewState extends State<MainTabBarView> {
   final List<TabScreen> _listScreen = [];
-  final MainCubit _cubit = MainCubit();
+  final MainCubit _cubit = getIt<MainCubit>();
 
   @override
   void initState() {

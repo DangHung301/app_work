@@ -28,7 +28,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   .map((e) => itemMenu(e.isSelect, e.typeMenu.getNameMenu, () {
                         e.typeMenu.selectMenu();
                         setState(() {});
-                        Navigator.pop(context, e.typeMenu);
+                        e.typeMenu.navigatorScreen(context);
                       }))
                   .toList(),
             ),

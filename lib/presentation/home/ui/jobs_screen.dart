@@ -3,12 +3,12 @@ import 'package:recruit_app/config/base/app_config.dart';
 import 'package:recruit_app/domain/model/home_screen/company_model.dart';
 import 'package:recruit_app/presentation/home/bloc/home_cubit.dart';
 import 'package:recruit_app/presentation/home/ui/widget/job_company_widget.dart';
-import 'package:recruit_app/until/const/color.dart';
 import 'package:recruit_app/until/const/string.dart';
 import 'package:recruit_app/widget/appbar/base_app_bar.dart';
 
 class JobsScreen extends StatefulWidget {
   final HomeCubit cubit;
+
   const JobsScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
@@ -23,6 +23,7 @@ class _JobsScreenState extends State<JobsScreen> {
         title: 'Danh sách công việc',
         leading: GestureDetector(
             onTap: () {
+
               Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back_ios)),
@@ -75,6 +76,7 @@ class _JobsScreenState extends State<JobsScreen> {
       ),
     );
   }
+
   Widget _congViec() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,10 +97,12 @@ class _JobsScreenState extends State<JobsScreen> {
                 child: Column(
                   children: data
                       .map((e) => JobCompanyWidget(
-                      image: e.logoImage,
-                      title: e.title,
-                      rangeSalary: e.rangeSalary,
-                      address: e.address))
+                            image: e.logoImage,
+                            title: e.title,
+                            rangeSalary: e.rangeSalary,
+                            address: e.address,
+                            id: '',
+                          ))
                       .toList(),
                 ),
               );
@@ -106,5 +110,4 @@ class _JobsScreenState extends State<JobsScreen> {
       ],
     );
   }
-
 }

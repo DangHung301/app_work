@@ -39,9 +39,9 @@ class _ButtonCustomBottomState extends State<ButtonCustomBottom> {
                 child: Text(
                   widget.title,
                   style: TextStyle(
-                    fontSize: widget.size,
-                    color: Colors.white,
-                  ),
+                      fontSize: widget.size,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500),
                 ),
               ),
             ),
