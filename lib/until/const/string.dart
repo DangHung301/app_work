@@ -29,4 +29,8 @@ class StringConst {
   static const String gioi_thieu = 'Giới thiệu';
   static const String thoi_gian_tuyen_dung = 'Thời gian tuyển dụng';
   static const String thong_tin_cong_ty = 'Thông tin công ty';
+  static const String ngay_sinh = 'Ngày sinh';
+  static const String ho_va_ten = 'Họ và tên';
+  static const String tuoi = 'Tuổi';
+  static const String sua_thong_tin_ca_nhan = 'Sửa thông tin cá nhân';
 }

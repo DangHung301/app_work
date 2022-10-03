@@ -3,6 +3,7 @@ import 'package:recruit_app/config/base/di.dart';
 import 'package:recruit_app/config/local/prefs_service.dart';
 import 'package:recruit_app/presentation/splash/bloc/app_state.dart';
 import 'package:recruit_app/presentation/splash/splash_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +26,21 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'EN'), // English, no country code
+        Locale('vi', 'VN'), // Spanish, no country code
+      ],
+      locale: const Locale('vi', 'VN'),
+      // localeListResolutionCallback: (deviceLocale, supportedLocales) {
+      //   return const Locale.fromSubtags(languageCode: 'vi');
+      // },
       home: AppStateCt(
-           appState: appState, child: const SplashScreen()),
+          appState: appState, child: const SplashScreen()),
     );
   }
 }
@@ -42,7 +56,7 @@ class AppStateCt extends InheritedWidget {
 
   static AppStateCt of(BuildContext context) {
     final AppStateCt? result =
-        context.dependOnInheritedWidgetOfExactType<AppStateCt>();
+    context.dependOnInheritedWidgetOfExactType<AppStateCt>();
     return result!;
   }
 
