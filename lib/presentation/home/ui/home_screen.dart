@@ -6,6 +6,7 @@ import 'package:recruit_app/presentation/home/bloc/home_cubit.dart';
 import 'package:recruit_app/presentation/home/ui/jobs_screen.dart';
 import 'package:recruit_app/presentation/home/ui/widget/job_company_widget.dart';
 import 'package:recruit_app/presentation/home/ui/widget/job_widget.dart';
+import 'package:recruit_app/presentation/home/ui/works_screen.dart';
 import 'package:recruit_app/until/const/color.dart';
 import 'package:recruit_app/until/const/string.dart';
 import 'package:recruit_app/widget/appbar/base_app_bar.dart';
@@ -97,9 +98,26 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          StringConst.danh_sach_cong_viec,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              StringConst.danh_sach_cong_viec,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WorksScreen(cubit: cubit)));
+              },
+              child: const Icon(
+                Icons.navigate_next,
+                color: colorPrimary1,
+              ),
+            )
+          ],
         ),
         const SizedBox(
           height: 8,
