@@ -7,5 +7,5 @@ class ImageAssets {
   static const String imgPassword = '$baseImg/ic_password.svg';
   static const String imgAcount = '$baseImg/ic_acount.svg';
   static const String imgKma = '$baseImg/img_kma.png';
-
+  static const String icRemoveImg = '$baseImg/ic_remove_img.svg';
 }

@@ -72,12 +72,65 @@ class _DetailCVScreenState extends State<DetailCVScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12)),
                       child: Column(
-                        children: data
-                                ?.getRow(textEditControllerModel)
-                                .map((e) => GenaralItemWidget(
-                                    title: e.key, content: e.value))
-                                .toList() ??
-                            [],
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Thông tin cá nhân',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                          Column(
+                            children: data
+                                    ?.getRow(textEditControllerModel)
+                                    .map((e) => GenaralItemWidget(
+                                        title: e.key, content: e.value))
+                                    .toList() ??
+                                [],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: const Offset(0, 4),
+                                blurRadius: 56,
+                                spreadRadius: 0,
+                                color:
+                                    const Color(0xFF5875AC).withOpacity(0.08)),
+                            BoxShadow(
+                                offset: const Offset(0, 12),
+                                blurRadius: 16,
+                                spreadRadius: 0,
+                                color:
+                                    const Color(0xFF5875AC).withOpacity(0.08)),
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Thông tin công ty hiện tại',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                          Column(
+                            children: data?.currentInfmationJob
+                                    .getRowDataCurrentInfomtionJob(
+                                        textEditControllerModel)
+                                    .map((e) => GenaralItemWidget(
+                                        title: e.key, content: e.value))
+                                    .toList() ??
+                                [],
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(

@@ -175,12 +175,12 @@ class CurrentInfmationJob {
         RowDataCV(
           controller: textEditController.congty,
           key: StringConst.cong_ty,
-          value: diaChi,
+          value: congty,
         ),
         RowDataCV(
           controller: textEditController.nghanhNgheHienTai,
           key: StringConst.nghanh_nghe,
-          value: diaChi,
+          value: nghanhNghe,
         ),
       ];
 }

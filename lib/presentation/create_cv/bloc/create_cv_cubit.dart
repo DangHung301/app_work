@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:recruit_app/config/base/base_cubit.dart';
 import 'package:recruit_app/domain/model/cv/detail_cv_model.dart';
 import 'package:recruit_app/presentation/create_cv/bloc/create_cv_state.dart';
@@ -10,6 +13,21 @@ class CreateCVCubit extends BaseCubit<CreateCVState> {
 
   void init() {
     cvSubject.add(fakeDetailCV);
+  }
+
+
+  final BehaviorSubject<Uint8List?> imageSubject = BehaviorSubject.seeded(null);
+
+  Future<void> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    Uint8List? result;
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      result = await image.readAsBytes();
+    }
+
+    imageSubject.add(result);
   }
 
   DetailCVModel fakeDetailCV = DetailCVModel(

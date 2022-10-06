@@ -1,35 +1,32 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:recruit_app/domain/model/cv/cv_model.dart';
 import 'package:recruit_app/domain/model/cv/detail_cv_model.dart';
-import 'package:recruit_app/presentation/create_cv/bloc/create_cv_cubit.dart';
 import 'package:recruit_app/presentation/create_cv/ui/widget/container_title_widget.dart';
 import 'package:recruit_app/presentation/create_cv/ui/widget/pick_image_widget.dart';
-import 'package:recruit_app/presentation/list_cv/bloc/cv_cubit.dart';
+import 'package:recruit_app/presentation/edit_cv/bloc/edit_cv_cubit.dart';
 import 'package:recruit_app/presentation/list_cv/ui/text_edit_controller_model.dart';
+
 import 'package:recruit_app/until/const/string.dart';
-import 'package:recruit_app/until/extension/date_time.dart';
 import 'package:recruit_app/widget/appbar/base_app_bar.dart';
 import 'package:recruit_app/widget/button/button_custom.dart';
 
-class CreateCVSCreen extends StatefulWidget {
-  final CVCubit cubit;
-
-  const CreateCVSCreen({Key? key, required this.cubit}) : super(key: key);
+class EditCVScreen extends StatefulWidget {
+  const EditCVScreen({Key? key}) : super(key: key);
 
   @override
-  State<CreateCVSCreen> createState() => _CreateCVSCreenState();
+  State<EditCVScreen> createState() => _EditCVScreenState();
 }
 
-class _CreateCVSCreenState extends State<CreateCVSCreen> {
-  CreateCVCubit cubit = CreateCVCubit();
+class _EditCVScreenState extends State<EditCVScreen> {
+  EditCVCubit cubit = EditCVCubit();
   TextEditControllerModel textEditControllerModel = TextEditControllerModel();
 
   @override
   void initState() {
     super.initState();
-    cubit.init();
+    cubit.init(textEditControllerModel);
+
   }
 
   @override
@@ -57,11 +54,11 @@ class _CreateCVSCreenState extends State<CreateCVSCreen> {
                           children: [
                             Column(
                               children: data
-                                      ?.getRow(textEditControllerModel)
-                                      .map((e) => ContainerTitleWidget(
-                                          controller: e.controller,
-                                          title: e.key))
-                                      .toList() ??
+                                  ?.getRow(textEditControllerModel)
+                                  .map((e) => ContainerTitleWidget(
+                                  controller: e.controller,
+                                  title: e.key))
+                                  .toList() ??
                                   [],
                             ),
                             const SizedBox(
@@ -77,12 +74,12 @@ class _CreateCVSCreenState extends State<CreateCVSCreen> {
                             ),
                             Column(
                               children: data?.currentInfmationJob
-                                      .getRowDataCurrentInfomtionJob(
-                                          textEditControllerModel)
-                                      .map((e) => ContainerTitleWidget(
-                                          controller: e.controller,
-                                          title: e.key))
-                                      .toList() ??
+                                  .getRowDataCurrentInfomtionJob(
+                                  textEditControllerModel)
+                                  .map((e) => ContainerTitleWidget(
+                                  controller: e.controller,
+                                  title: e.key))
+                                  .toList() ??
                                   [],
                             ),
                             const SizedBox(
@@ -121,13 +118,9 @@ class _CreateCVSCreenState extends State<CreateCVSCreen> {
               ),
             ),
             ButtonCustomBottom(
-                title: StringConst.tao_cv,
+                title: 'Sửa CV',
                 onPressed: () {
-                  widget.cubit.fakeCVs.add(CVModel(
-                      id: 'id',
-                      title: textEditControllerModel.tieuDeCv.text,
-                      dateTime: DateTime.now().formatDdMMYYYY));
-                  widget.cubit.cvSubject.add(widget.cubit.fakeCVs);
+
                   Navigator.pop(context);
                 }),
           ],
@@ -135,4 +128,5 @@ class _CreateCVSCreenState extends State<CreateCVSCreen> {
       ),
     );
   }
+
 }

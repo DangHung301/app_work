@@ -90,7 +90,6 @@ dependencies:
   camera: 0.9.8
   camera_avfoundation: ^0.9.8+2
   photo_manager: ^2.1.2
-
   file_picker: ^4.0.2
   expandable: 5.0.1
   queue: ^3.1.0+1
