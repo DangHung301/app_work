@@ -48,6 +48,7 @@ extension ExtensionTypeMenu on TypeMenu {
       case TypeMenu.TRANG_CHU:
         {
           getIt<MainCubit>().selectTab(TabBarType.home);
+          Navigator.pop(context);
           break;
         }
       case TypeMenu.DANH_SACH_CONG_VIEC_DA_LUU:

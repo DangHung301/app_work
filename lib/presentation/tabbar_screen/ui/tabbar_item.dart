@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recruit_app/presentation/home/ui/home_screen.dart';
+import 'package:recruit_app/presentation/list_cv/ui/list_cv_screen.dart';
 import 'package:recruit_app/until/const/color.dart';
 
 enum TabBarType { home, user }
@@ -36,7 +37,7 @@ extension TabbarEnum on TabBarType {
       case TabBarType.home:
         return const HomeScreen();
       case TabBarType.user:
-        return Container();
+        return const ListCVScreen();
     }
   }
 

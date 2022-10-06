@@ -33,4 +33,23 @@ class StringConst {
   static const String ho_va_ten = 'Họ và tên';
   static const String tuoi = 'Tuổi';
   static const String sua_thong_tin_ca_nhan = 'Sửa thông tin cá nhân';
+  static const String danh_sach_cv = 'Danh sách CV';
+  static const String tieu_de_cv = 'Tiêu đề CV';
+  static const String ten_nguoi_dung = 'Tên người dùng';
+  static const String nam_sinh = 'Năm sinh';
+  static const String chieu_cao = 'Chiều cao';
+  static const String can_nang = 'Cân nặng';
+  static const String ten_truong_thpt = 'Tên trường THPT';
+  static const String so_ho_khau = 'Sổ hộ khẩu';
+  static const String cmnd = 'Chứng minh nhân dân';
+  static const String so_thich = 'Sở thích';
+  static const String tinh_cach = 'Tính cách';
+  static const String que_quan = 'Quê quán';
+  static const String trinh_do_van_hoa = 'Trình độ văn hoá';
+  static const String nguyen_vong = 'Nguyện vọng';
+  static const String nghanh_nghe = 'Nghành nghề';
+  static const String dieu_kien_dac_biet = 'Điều kiện đặc biệt';
+  static const String vung = 'Vùng';
+  static const String tinh = 'Tỉnh';
+  static const String chi_tiet_cv = 'Chi tiết CV';
 }

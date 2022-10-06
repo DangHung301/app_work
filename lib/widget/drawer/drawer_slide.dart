@@ -45,7 +45,7 @@ class DrawerSlide {
                     child: GestureDetector(
                       child: Container(color: Colors.black12),
                       onTap: () {
-                        getIt<MainCubit>().selectTab(TabBarType.home);
+                        // getIt<MainCubit>().selectTab(TabBarType.home);
                         selectHomeMenu();
                         Navigator.pop(context);
                       },

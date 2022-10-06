@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/presentation/home/bloc/home_cubit.dart';
+import 'package:recruit_app/presentation/home/ui/jobs_screen.dart';
 import 'package:recruit_app/presentation/home/ui/widget/job_widget.dart';
 import 'package:recruit_app/until/const/string.dart';
 import 'package:recruit_app/widget/appbar/base_app_bar.dart';
@@ -26,7 +27,13 @@ class WorksScreen extends StatelessWidget {
           runSpacing: 10,
           children: (cubit.jobsSubject.valueOrNull ?? [])
               .map((e) => GestureDetector(
-                  onTap: () {}, child: JobWidget(nameJob: e.job, icon: e.img)))
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => JobsScreen(cubit: cubit)));
+                  },
+                  child: JobWidget(nameJob: e.job, icon: e.img)))
               .toList(),
         ),
       ),
