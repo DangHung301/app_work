@@ -1,11 +1,17 @@
 import 'package:recruit_app/config/base/base_cubit.dart';
 import 'package:recruit_app/domain/model/cv/detail_cv_model.dart';
-import 'package:recruit_app/presentation/detail_cv/bloc/detail_cv_state.dart';
+import 'package:recruit_app/presentation/create_cv/bloc/create_cv_state.dart';
 import 'package:rxdart/rxdart.dart';
 
-class DetailCVCubit extends BaseCubit<DetailCVState> {
-  DetailCVCubit() : super(DetailCVStateInit());
-  
+class CreateCVCubit extends BaseCubit<CreateCVState> {
+  CreateCVCubit() : super(CreateCVStateIntial());
+
+  BehaviorSubject<DetailCVModel> cvSubject = BehaviorSubject();
+
+  void init() {
+    cvSubject.add(fakeDetailCV);
+  }
+
   DetailCVModel fakeDetailCV = DetailCVModel(
       tieuDeCv: 'Tim viec Mobile',
       tenNguoiDung: 'Nguyen Van A',
@@ -32,12 +38,6 @@ class DetailCVCubit extends BaseCubit<DetailCVState> {
           congty: 'ABC',
           nghanhNghe: 'Mobile',
           anhChungChi:
-          'https://lambanguytin.com/wp-content/uploads/2020/08/H%C3%ACnh-%E1%BA%A3nh-c%E1%BB%A7a-ch%E1%BB%A9ng-ch%E1%BB%89-tin-h%E1%BB%8Dc-c%C6%A1-b%E1%BA%A3n.png'));
+              'https://lambanguytin.com/wp-content/uploads/2020/08/H%C3%ACnh-%E1%BA%A3nh-c%E1%BB%A7a-ch%E1%BB%A9ng-ch%E1%BB%89-tin-h%E1%BB%8Dc-c%C6%A1-b%E1%BA%A3n.png'));
 
-
-  BehaviorSubject<DetailCVModel> detailCVSubject = BehaviorSubject();
-
-  void init() {
-    detailCVSubject.add(fakeDetailCV);
-  }
 }

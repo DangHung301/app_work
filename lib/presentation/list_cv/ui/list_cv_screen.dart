@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/domain/model/cv/cv_model.dart';
+import 'package:recruit_app/presentation/create_cv/ui/create_cv_screen.dart';
 import 'package:recruit_app/presentation/list_cv/bloc/cv_cubit.dart';
 import 'package:recruit_app/presentation/list_cv/ui/widget/cv_widget.dart';
 import 'package:recruit_app/until/const/color.dart';
@@ -57,7 +58,9 @@ class _ListCVScreenState extends State<ListCVScreen> {
         ),
       ),
       floatingActionButton: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>  CreateCVSCreen(cubit: cubit,)));
+        },
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: const BoxDecoration(
