@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_app/config/base/base_cubit.dart';
 import 'package:recruit_app/domain/model/cv/detail_cv_model.dart';
-import 'package:recruit_app/presentation/detail_cv/bloc/detail_cv_state.dart';
 import 'package:recruit_app/presentation/edit_cv/bloc/edit_cv_state.dart';
 import 'package:recruit_app/presentation/list_cv/ui/text_edit_controller_model.dart';
 import 'package:rxdart/rxdart.dart';
@@ -64,7 +63,8 @@ class EditCVCubit extends BaseCubit<EditCVState> {
     model.chieuCao.text = cvSubject.value.chieuCao;
     model.canNang.text = cvSubject.value.canNang;
     model.kinhNghiem.text = cvSubject.value.kinhNghiem;
-    model.tenTruongTrungHocPhoThong.text = cvSubject.value.tenTruongTrungHocPhoThong;
+    model.tenTruongTrungHocPhoThong.text =
+        cvSubject.value.tenTruongTrungHocPhoThong;
     model.soThichh.text = cvSubject.value.soThichh;
     model.tinhCach.text = cvSubject.value.tinhCach;
     model.queQuan.text = cvSubject.value.queQuan;
@@ -79,7 +79,8 @@ class EditCVCubit extends BaseCubit<EditCVState> {
     model.soHoKhau.text = cvSubject.value.soHoKhau;
     model.diaChi.text = cvSubject.value.currentInfmationJob.diaChi;
     model.congty.text = cvSubject.value.currentInfmationJob.congty;
-    model.nghanhNgheHienTai.text = cvSubject.value.currentInfmationJob.nghanhNghe;
+    model.nghanhNgheHienTai.text =
+        cvSubject.value.currentInfmationJob.nghanhNghe;
   }
 
   void enableValidate() {
