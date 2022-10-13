@@ -23,6 +23,12 @@ class _MyAppState extends State<MyApp> {
   AppState appState = AppState();
 
   @override
+  void initState() {
+    super.initState();
+    appState.getTokenPrefs();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',

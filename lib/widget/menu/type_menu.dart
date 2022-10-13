@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/config/base/di.dart';
+import 'package:recruit_app/config/local/prefs_service.dart';
 import 'package:recruit_app/presentation/home/bloc/home_cubit.dart';
 import 'package:recruit_app/presentation/home/ui/jobs_screen.dart';
 import 'package:recruit_app/presentation/login/ui/login_screen.dart';
@@ -77,6 +78,8 @@ extension ExtensionTypeMenu on TypeMenu {
         }
       case TypeMenu.DANG_XUAT:
         {
+          PrefsService.removeToken();
+
           showMyDialog(
               context: context,
               title: 'Đăng xuất',

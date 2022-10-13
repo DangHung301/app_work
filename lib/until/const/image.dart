@@ -8,4 +8,7 @@ class ImageAssets {
   static const String imgAcount = '$baseImg/ic_acount.svg';
   static const String imgKma = '$baseImg/img_kma.png';
   static const String icRemoveImg = '$baseImg/ic_remove_img.svg';
+  static const String icError = '$baseImg/ic_error.svg';
+  static const String icSucces = '$baseImg/ic_succes.svg';
+
 }

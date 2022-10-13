@@ -1,5 +1,6 @@
 
 
+import 'package:recruit_app/config/local/prefs_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AppState {
@@ -10,5 +11,6 @@ class AppState {
   final BehaviorSubject<String> getToken = BehaviorSubject<String>();
 
   void getTokenPrefs() {
+    getToken.add(PrefsService.getToken());
   }
 }

@@ -51,6 +51,9 @@ class StringConst {
   static const String dieu_kien_dac_biet = 'Điều kiện đặc biệt';
   static const String vung = 'Vùng';
   static const String tinh = 'Tỉnh';
+  static const String empty = 'Không có dữ liệu';
   static const String tao_cv = 'Tạo CV';
   static const String chi_tiet_cv = 'Chi tiết CV';
+  static const String xin_vui_long_thu_lai = 'Xin vui lòng thử lại';
+  static const String error = 'Erorr';
 }
