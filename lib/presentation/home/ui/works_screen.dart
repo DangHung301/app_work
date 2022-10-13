@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recruit_app/presentation/home/bloc/home_cubit.dart';
 import 'package:recruit_app/presentation/home/ui/jobs_screen.dart';
 import 'package:recruit_app/presentation/home/ui/widget/job_widget.dart';
+import 'package:recruit_app/until/const/color.dart';
 import 'package:recruit_app/until/const/string.dart';
 import 'package:recruit_app/widget/appbar/base_app_bar.dart';
 
@@ -33,7 +34,7 @@ class WorksScreen extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => JobsScreen(cubit: cubit)));
                   },
-                  child: JobWidget(nameJob: e.job, icon: e.img)))
+                  child: JobWidget(nameJob: e.details ?? '', icon: const Icon(Icons.star, color: colorPrimary1,))))
               .toList(),
         ),
       ),

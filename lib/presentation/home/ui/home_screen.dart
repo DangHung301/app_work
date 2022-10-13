@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/config/base/app_config.dart';
-import 'package:recruit_app/domain/model/home_screen/company_model.dart';
-import 'package:recruit_app/domain/model/home_screen/job_model.dart';
+import 'package:recruit_app/data/response/home/jobs_response.dart';
+import 'package:recruit_app/data/response/home/name_jobs_response.dart';
 import 'package:recruit_app/presentation/home/bloc/home_cubit.dart';
 import 'package:recruit_app/presentation/home/ui/jobs_screen.dart';
 import 'package:recruit_app/presentation/home/ui/widget/job_company_widget.dart';
@@ -12,6 +12,9 @@ import 'package:recruit_app/until/const/string.dart';
 import 'package:recruit_app/widget/appbar/base_app_bar.dart';
 import 'package:recruit_app/widget/drawer/drawer_slide.dart';
 import 'package:recruit_app/widget/menu/menu.dart';
+import 'package:recruit_app/widget/views/state_stream_layout.dart';
+
+import '../../../config/base/app_exeption.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -41,25 +44,33 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: const Icon(Icons.menu)),
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _searchBar(onChange: (text) {}),
-              const SizedBox(
-                height: 20,
-              ),
-              _danhSachCongViec(),
-              const SizedBox(
-                height: 20,
-              ),
-              _congViec(onTap: () {}),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
+      body: StateStreamLayout(
+        stream: cubit.streamState,
+        error: AppException(StringConst.error, StringConst.xin_vui_long_thu_lai),
+        textEmpty: StringConst.empty,
+        retry: () {},
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _searchBar(onChange: (text) {
+                  cubit.searchJobs(search: text);
+                }),
+                const SizedBox(
+                  height: 20,
+                ),
+                _danhSachCongViec(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _congViec(onTap: () {}),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -122,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(
           height: 8,
         ),
-        StreamBuilder<List<JobModel>>(
+        StreamBuilder<List<NameJobsResponse>>(
             stream: cubit.jobsSubject.stream,
             builder: (context, snapshot) {
               final data = snapshot.data ?? [];
@@ -139,7 +150,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     builder: (context) =>
                                         JobsScreen(cubit: cubit)));
                           },
-                          child: JobWidget(nameJob: e.job, icon: e.img)))
+                          child: JobWidget(
+                              nameJob: e.details ?? '',
+                              icon: const Icon(
+                                Icons.star,
+                                color: colorPrimary1,
+                              ))))
                       .toList(),
                 ),
               );
@@ -176,22 +192,23 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(
           height: 8,
         ),
-        StreamBuilder<List<CompanyModel>>(
+        StreamBuilder<JobsResponse>(
             stream: cubit.companysSubject.stream,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? [];
+              final data = snapshot.data;
 
               return SingleChildScrollView(
                 child: Column(
-                  children: data
+                  children: (data?.items ?? [])
                       .map((e) => GestureDetector(
                             onTap: onTap,
                             child: JobCompanyWidget(
-                              image: e.logoImage,
-                              title: e.title,
-                              rangeSalary: e.rangeSalary,
-                              address: e.address,
-                              id: '',
+                              image:
+                                  'https://webixytech.com/admin_panel/assets/project_images/1625120256What_is_an_IT_company.jpg',
+                              title: e?.name ?? '',
+                              rangeSalary: e?.salary ?? '',
+                              address: e?.workaddress ?? '',
+                              id: e?.id ?? '',
                             ),
                           ))
                       .toList(),

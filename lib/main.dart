@@ -8,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
+  configApi();
   await PrefsService.init();
   runApp(const MyApp());
 }

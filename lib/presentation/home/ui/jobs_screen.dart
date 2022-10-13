@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/config/base/app_config.dart';
-import 'package:recruit_app/domain/model/home_screen/company_model.dart';
+import 'package:recruit_app/data/response/home/jobs_response.dart';
 import 'package:recruit_app/presentation/home/bloc/home_cubit.dart';
 import 'package:recruit_app/presentation/home/ui/widget/job_company_widget.dart';
 import 'package:recruit_app/until/const/string.dart';
@@ -88,21 +88,22 @@ class _JobsScreenState extends State<JobsScreen> {
         const SizedBox(
           height: 8,
         ),
-        StreamBuilder<List<CompanyModel>>(
+        StreamBuilder<JobsResponse>(
             stream: widget.cubit.companysSubject.stream,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? [];
+              final data = snapshot.data ;
 
               return SingleChildScrollView(
                 child: Column(
-                  children: data
+                  children: (data?.items ?? [])
                       .map((e) => JobCompanyWidget(
-                            image: e.logoImage,
-                            title: e.title,
-                            rangeSalary: e.rangeSalary,
-                            address: e.address,
-                            id: '',
-                          ))
+                    image:
+                    'https://webixytech.com/admin_panel/assets/project_images/1625120256What_is_an_IT_company.jpg',
+                    title: e?.name ?? '',
+                    rangeSalary: e?.salary ?? '',
+                    address: e?.workaddress ?? '',
+                    id: e?.id ?? '',
+                  ))
                       .toList(),
                 ),
               );

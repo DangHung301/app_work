@@ -1,102 +1,64 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:recruit_app/config/base/base_cubit.dart';
+import 'package:recruit_app/config/base/di.dart';
+import 'package:recruit_app/data/request/home/job_request.dart';
+import 'package:recruit_app/data/response/home/jobs_response.dart';
+import 'package:recruit_app/data/response/home/name_jobs_response.dart';
 import 'package:recruit_app/domain/model/home_screen/company_model.dart';
-import 'package:recruit_app/domain/model/home_screen/job_model.dart';
-import 'package:recruit_app/domain/model/home_screen/new_model.dart';
+import 'package:recruit_app/domain/repositories/repo/home/home_repository.dart';
 import 'package:recruit_app/presentation/home/bloc/home_state.dart';
-import 'package:recruit_app/until/const/color.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(HomeStateIntial());
 
-  BehaviorSubject<List<JobModel>> jobsSubject =
-      BehaviorSubject<List<JobModel>>();
+  HomeRepository repo = getIt<HomeRepository>();
 
-  BehaviorSubject<List<CompanyModel>> companysSubject =
-      BehaviorSubject<List<CompanyModel>>();
+  BehaviorSubject<List<NameJobsResponse>> jobsSubject =
+      BehaviorSubject<List<NameJobsResponse>>();
 
-  BehaviorSubject<List<NewModel>> newsSubject =
-      BehaviorSubject<List<NewModel>>();
+  BehaviorSubject<JobsResponse> companysSubject =
+      BehaviorSubject<JobsResponse>();
 
-  void init() {
-    jobsSubject.add(jobsFake);
-    companysSubject.add(companys);
-    newsSubject.add(newFake);
+  Future<void> init() async {
+    showLoading();
+
+    await Future.wait([getNameJobs(), getJobs()]);
+
+    showContent();
   }
 
-  List<NewModel> newFake = [
-    NewModel(
-        image:
-            'https://www.cathaypacific.com/content/dam/destinations/new-york/cityguide-gallery/new-york_times-square_920x500.jpg',
-        title: 'Nga công bố video huấn luyện lính dự bị động viên',
-        date: '27/09/2020'),
-    NewModel(
-        image:
-            'https://www.cathaypacific.com/content/dam/destinations/new-york/cityguide-gallery/new-york_skyline_920x500.jpg',
-        title: 'Nga công bố video huấn luyện lính dự bị động viên Nga công bố video huấn luyện lính dự bị động viên',
-        date: '27/09/2020'),
-    NewModel(
-        image:
-            'https://www.quocanh.edu.vn/uploads/files/2022/07/21/du-hoc-new-zealand-1-.jpg',
-        title: 'Nga công bố video',
-        date: '27/09/2020'),
-    NewModel(
-        image:
-            'https://www.cathaypacific.com/content/dam/destinations/new-york/cityguide-gallery/new-york_times-square_920x500.jpg',
-        title: 'Nga công bố ',
-        date: '27/09/2020'),
-    NewModel(
-        image:
-            'https://www.cathaypacific.com/content/dam/destinations/new-york/cityguide-gallery/new-york_times-square_920x500.jpg',
-        title: 'Nga công bố video huấn luyện lính dự bị động viên',
-        date: '27/09/2020'),
-  ];
+  Future<void> searchJobs({String search = ''}) async {
+    Timer(const Duration(milliseconds: 500), ()  async {
+      showLoading();
+      await getJobs(search: search);
+      showContent();
 
-  List<JobModel> jobsFake = [
-    JobModel(
-        job: 'Cơ sở dữ liệu',
-        img: Icon(
-          Icons.star,
-          color: colorPrimary1,
-        )),
-    JobModel(
-        job: 'Lập trình web',
-        img: Icon(
-          Icons.star,
-          color: colorPrimary1,
-        )),
-    JobModel(
-        job: 'Lập trình java',
-        img: Icon(
-          Icons.star,
-          color: colorPrimary1,
-        )),
-    JobModel(
-        job: 'Lập trình Flutter',
-        img: Icon(
-          Icons.star,
-          color: colorPrimary1,
-        )),
-    JobModel(
-        job: 'Lập trình Android',
-        img: Icon(
-          Icons.star,
-          color: colorPrimary1,
-        )),
-    JobModel(
-        job: 'AI',
-        img: Icon(
-          Icons.star,
-          color: colorPrimary1,
-        )),
-    JobModel(
-        job: 'Blockchain',
-        img: Icon(
-          Icons.star,
-          color: colorPrimary1,
-        )),
-  ];
+    });
+  }
+
+  Future<void> getNameJobs() async {
+    final result = await repo.getNameJobs();
+
+    result.when(
+        success: (success) {
+          jobsSubject.add(success);
+        },
+        error: (error) {});
+  }
+
+  Future<void> getJobs(
+      {String search = '', int page = 1, int size = 10}) async {
+    final result =
+        await repo.getJobs(JobRequest(page: page, size: size, search: search));
+
+    result.when(
+        success: (success) {
+          companysSubject.add(success);
+        },
+        error: (error) {});
+  }
 
   List<CompanyModel> companys = [
     CompanyModel(

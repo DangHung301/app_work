@@ -25,6 +25,7 @@ class JobCompanyWidget extends StatelessWidget {
             MaterialPageRoute(builder: (context) => DetailJobScreen(id: id)));
       },
       child: Container(
+        height: 8 + 26*4,
         margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -43,6 +44,7 @@ class JobCompanyWidget extends StatelessWidget {
                   child: Image.network(
                     image,
                     fit: BoxFit.cover,
+                    height: 8 + 26*4,
                   )),
               flex: 2,
             ),
@@ -80,6 +82,8 @@ class JobCompanyWidget extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 14,
                           fontWeight: FontWeight.w400),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
