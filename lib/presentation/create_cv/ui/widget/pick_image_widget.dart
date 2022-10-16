@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,7 +6,7 @@ import 'package:recruit_app/until/const/color.dart';
 import 'package:recruit_app/until/const/image.dart';
 
 class PickImageWidget extends StatefulWidget {
-  final Uint8List? image;
+  final File? image;
   final Function removeImage;
 
   const PickImageWidget({
@@ -57,7 +57,7 @@ class _PickImageWidgetState extends State<PickImageWidget> {
             border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: MemoryImage(widget.image ?? Uint8List(0)),
+              image: FileImage(widget.image ?? File('')),
             ),
             boxShadow: [
               BoxShadow(

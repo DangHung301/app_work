@@ -81,7 +81,7 @@ class JobDataResponse {
 
 class JobsResponse {
   int? totalItems;
-  List<JobDataResponse?>? items;
+  List<JobDataResponse>? items;
   int? totalPages;
   int? currentPage;
 
@@ -102,7 +102,7 @@ class JobsResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['totalItems'] = totalItems;
-    data['items'] =items != null ? items!.map((v) => v?.toJson()).toList() : null;
+    data['items'] =items != null ? items!.map((v) => v.toJson()).toList() : null;
     data['totalPages'] = totalPages;
     data['currentPage'] = currentPage;
     return data;

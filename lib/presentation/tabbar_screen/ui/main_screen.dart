@@ -23,13 +23,6 @@ class _MainTabBarViewState extends State<MainTabBarView> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _cubit.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StreamBuilder<TabBarType>(
       stream: _cubit.selectTabBar,

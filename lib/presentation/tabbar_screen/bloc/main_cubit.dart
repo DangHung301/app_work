@@ -14,8 +14,4 @@ class MainCubit extends BaseCubit<MainState> {
   void selectTab(TabBarType tab) {
     _selectTabBar.sink.add(tab);
   }
-
-  void dispose() {
-    _selectTabBar.close();
-  }
 }

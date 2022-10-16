@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -93,7 +94,7 @@ class _EditCVScreenState extends State<EditCVScreen> {
                             const SizedBox(
                               height: 12,
                             ),
-                            StreamBuilder<Uint8List?>(
+                            StreamBuilder<File?>(
                                 stream: cubit.imageSubject.stream,
                                 builder: (context, snapshot) {
                                   final data = snapshot.data;

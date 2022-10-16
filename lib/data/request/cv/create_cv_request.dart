@@ -1,6 +1,4 @@
-
-class CvDataResponse {
-  int? id;
+class CreateCvRequest {
   String? title;
   String? displayname;
   String? email;
@@ -27,16 +25,40 @@ class CvDataResponse {
   String? currentaddress;
   String? workingcompany;
   String? certificatephoto;
-  bool? isprimary;
-  String? createdat;
-  String? updatedat;
   String? userId;
-  String? careerId;
+  int? careerId;
 
-  CvDataResponse({this.id, this.title, this.displayname, this.email, this.phone, this.birthday, this.gender, this.avatar, this.height, this.weight, this.experience, this.namehighschool, this.householdnumber, this.cMND, this.interests, this.character, this.hometown, this.educationallevel, this.wish, this.specialconditions, this.salary, this.conscious, this.region, this.currentjobinformation, this.currentaddress, this.workingcompany, this.certificatephoto, this.isprimary, this.createdat, this.updatedat, this.userId, this.careerId});
+  CreateCvRequest(
+      {this.title,
+      this.displayname,
+      this.email,
+      this.phone,
+      this.birthday,
+      this.gender,
+      this.avatar,
+      this.height,
+      this.weight,
+      this.experience,
+      this.namehighschool,
+      this.householdnumber,
+      this.cMND,
+      this.interests,
+      this.character,
+      this.hometown,
+      this.educationallevel,
+      this.wish,
+      this.specialconditions,
+      this.salary,
+      this.conscious,
+      this.region,
+      this.currentjobinformation,
+      this.currentaddress,
+      this.workingcompany,
+      this.certificatephoto,
+      this.userId,
+      this.careerId});
 
-  CvDataResponse.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+  CreateCvRequest.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     displayname = json['display_name'];
     email = json['email'];
@@ -63,16 +85,12 @@ class CvDataResponse {
     currentaddress = json['current_address'];
     workingcompany = json['working_company'];
     certificatephoto = json['certificate_photo'];
-    isprimary = json['is_primary'];
-    createdat = json['created_at'];
-    updatedat = json['updated_at'];
     userId = json['userId'];
     careerId = json['careerId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
     data['title'] = title;
     data['display_name'] = displayname;
     data['email'] = email;
@@ -98,43 +116,11 @@ class CvDataResponse {
     data['current_job_information'] = currentjobinformation;
     data['current_address'] = currentaddress;
     data['working_company'] = workingcompany;
-    data['certificate_photo'] = certificatephoto;
-    data['is_primary'] = isprimary;
-    data['created_at'] = createdat;
-    data['updated_at'] = updatedat;
+    if( (certificatephoto ?? '').isNotEmpty) {
+      data['certificate_photo'] = certificatephoto;
+    }
     data['userId'] = userId;
     data['careerId'] = careerId;
     return data;
   }
 }
-
-class CVResponse {
-  int? totalItems;
-  List<CvDataResponse>? items;
-  int? totalPages;
-  int? currentPage;
-
-  CVResponse({this.totalItems, this.items, this.totalPages, this.currentPage});
-
-  CVResponse.fromJson(Map<String, dynamic> json) {
-    totalItems = json['totalItems'];
-    if (json['items'] != null) {
-      items = <CvDataResponse>[];
-      json['items'].forEach((v) {
-        items!.add(CvDataResponse.fromJson(v));
-      });
-    }
-    totalPages = json['totalPages'];
-    currentPage = json['currentPage'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['totalItems'] = totalItems;
-    data['items'] =items != null ? items!.map((v) => v.toJson()).toList() : null;
-    data['totalPages'] = totalPages;
-    data['currentPage'] = currentPage;
-    return data;
-  }
-}
-

@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                _congViec(onTap: () {}),
+                _congViec(),
                 const SizedBox(
                   height: 20,
                 ),
@@ -164,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _congViec({required Function() onTap}) {
+  Widget _congViec() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -200,17 +200,16 @@ class _HomeScreenState extends State<HomeScreen> {
               return SingleChildScrollView(
                 child: Column(
                   children: (data?.items ?? [])
-                      .map((e) => GestureDetector(
-                            onTap: onTap,
-                            child: JobCompanyWidget(
-                              image:
-                                  'https://webixytech.com/admin_panel/assets/project_images/1625120256What_is_an_IT_company.jpg',
-                              title: e?.name ?? '',
-                              rangeSalary: e?.salary ?? '',
-                              address: e?.workaddress ?? '',
-                              id: e?.id ?? '',
-                            ),
-                          ))
+                      .map((e) => JobCompanyWidget(
+                        image:
+                            'https://webixytech.com/admin_panel/assets/project_images/1625120256What_is_an_IT_company.jpg',
+                        title: e.name ?? '',
+                        rangeSalary: e.salary ?? '',
+                        address: e.workaddress ?? '',
+                        id: e.id ?? '', thenPop: (value) {
+                          cubit.init();
+                  },
+                      ))
                       .toList(),
                 ),
               );

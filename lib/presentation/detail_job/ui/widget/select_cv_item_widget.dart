@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:recruit_app/presentation/detail_cv/ui/detail_cv_screen.dart';
 import 'package:recruit_app/until/const/color.dart';
-import 'package:recruit_app/until/extension/date_time.dart';
-import 'package:recruit_app/until/extension/string.dart';
 
-import '../../../../data/response/cv/cv_response.dart';
+class SelectCVItemWidget extends StatelessWidget {
+  final String title;
+  final String date;
+  final bool isSelect;
+  final Function() onTap;
 
-class CVWidget extends StatelessWidget {
-  final Function() editCV;
-  final Function() deleteCV;
-  final CvDataResponse model;
-
-  const CVWidget(
+  const SelectCVItemWidget(
       {Key? key,
-      required this.editCV,
-      required this.deleteCV,
-      required this.model})
+      required this.onTap,
+      required this.title,
+      required this.date,
+      required this.isSelect})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const DetailCVScreen(id: '')));
-      },
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.white),
@@ -55,7 +47,7 @@ class CVWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  model.title ?? '',
+                  title,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -67,34 +59,14 @@ class CVWidget extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  (model.createdat ?? '').convertStringToDate.formatDdMMYYYY,
+                  date,
                 ),
               ],
             )),
             const SizedBox(
               width: 10,
             ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: editCV,
-                  child: const Icon(
-                    Icons.edit,
-                    color: colorPrimary1,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: deleteCV,
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                ),
-              ],
-            )
+            isSelect ? const Icon(Icons.circle, color: colorPrimary3, size: 12,) : Container()
           ],
         ),
       ),

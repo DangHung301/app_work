@@ -1,35 +1,48 @@
+import 'package:get/get.dart';
 import 'package:recruit_app/config/base/base_cubit.dart';
+import 'package:recruit_app/data/response/cv/cv_response.dart';
 import 'package:recruit_app/domain/model/cv/cv_model.dart';
 import 'package:recruit_app/domain/model/cv/detail_cv_model.dart';
+import 'package:recruit_app/domain/repositories/repo/cv/cv_repository.dart';
 import 'package:recruit_app/presentation/list_cv/bloc/cv_state.dart';
+import 'package:recruit_app/widget/dialog/message_config/message_config.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CVCubit extends BaseCubit<CVState> {
   CVCubit() : super(CVStateIntial());
 
-  BehaviorSubject<List<CVModel>> cvSubject = BehaviorSubject();
+  final CvRepository _repo = Get.find();
 
-  void init() {
-    cvSubject.add(fakeCVs);
+  BehaviorSubject<CVResponse> cvSubject = BehaviorSubject();
+
+  Future<void> init() async {
+    showLoading();
+    await getCV();
+    showContent();
   }
 
-  void deleteCV(CVModel model) {
-    fakeCVs.remove(model);
-    cvSubject.add(fakeCVs);
+  Future<void> getCV() async {
+    final result = await _repo.getCv();
+
+    result.when(
+        success: (success) {
+          cvSubject.add(success);
+        },
+        error: (error) {});
   }
 
-  List<CVModel> fakeCVs = [
-    CVModel(id: '', title: 'CV Mobile', dateTime: '30/9/2022'),
-    CVModel(id: '', title: 'CV Mobile', dateTime: '30/9/2022'),
-    CVModel(
-        id: '',
-        title: 'Nhân Viên Kinh Doanh (Lương Tới 20-30 Triệu)',
-        dateTime: '30/9/2022'),
-    CVModel(id: '', title: 'CV Mobile', dateTime: '30/9/2022'),
-    CVModel(id: '', title: 'CV Mobile', dateTime: '30/9/2022'),
-    CVModel(id: '', title: 'CV Mobile ', dateTime: '30/9/2022'),
-  ];
-
+  Future<void> deleteCV(int id) async {
+    showLoading();
+    final result = await _repo.deleteCv(id);
+    result.when(
+        success: (success) async {
+          MessageConfig.show(title: 'Xoá ảnh thành công');
+          await getCV();
+        },
+        error: (error) {});
+    showContent();
+  }
+  
   DetailCVModel fakeDetailCV = DetailCVModel(
       tieuDeCv: 'Tim viec Mobile',
       tenNguoiDung: 'Nguyen Van A',
@@ -57,5 +70,4 @@ class CVCubit extends BaseCubit<CVState> {
           nghanhNghe: 'Mobile',
           anhChungChi:
               'https://lambanguytin.com/wp-content/uploads/2020/08/H%C3%ACnh-%E1%BA%A3nh-c%E1%BB%A7a-ch%E1%BB%A9ng-ch%E1%BB%89-tin-h%E1%BB%8Dc-c%C6%A1-b%E1%BA%A3n.png'));
-
 }

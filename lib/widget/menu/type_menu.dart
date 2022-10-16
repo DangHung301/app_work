@@ -57,7 +57,10 @@ extension ExtensionTypeMenu on TypeMenu {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => JobsScreen(cubit: HomeCubit())));
+                  builder: (context) => JobsScreen(
+                        cubit: HomeCubit(),
+                        typeJob: JobType.save,
+                      )));
           break;
         }
       case TypeMenu.DANH_SACH_CONG_VIEC_DA_UNG_TUYEN:
@@ -65,7 +68,10 @@ extension ExtensionTypeMenu on TypeMenu {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => JobsScreen(cubit: HomeCubit())));
+                  builder: (context) => JobsScreen(
+                        cubit: HomeCubit(),
+                        typeJob: JobType.apply,
+                      )));
           break;
         }
       case TypeMenu.THONG_TIN_CA_NHAN:
@@ -78,17 +84,19 @@ extension ExtensionTypeMenu on TypeMenu {
         }
       case TypeMenu.DANG_XUAT:
         {
-          PrefsService.removeToken();
-
           showMyDialog(
               context: context,
               title: 'Đăng xuất',
               content: 'Bạn có muốn đăng xuất không',
               onPress: () {
+                PrefsService.removeToken();
+                PrefsService.removeUserId();
+                getIt<MainCubit>().selectTab(TabBarType.home);
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const LoginScreen()), (_) => false);
+                        builder: (context) => const LoginScreen()),
+                    (_) => false);
               });
           break;
         }

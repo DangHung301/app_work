@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_app/config/base/base_cubit.dart';
@@ -40,15 +40,15 @@ class EditCVCubit extends BaseCubit<EditCVState> {
 
   BehaviorSubject<bool> isValidateEdit = BehaviorSubject();
   BehaviorSubject<DetailCVModel> cvSubject = BehaviorSubject();
-  final BehaviorSubject<Uint8List?> imageSubject = BehaviorSubject.seeded(null);
+  final BehaviorSubject<File?> imageSubject = BehaviorSubject.seeded(null);
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
-    Uint8List? result;
+    File? result;
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-      result = await image.readAsBytes();
+      result = File(image.path);
     }
 
     imageSubject.add(result);

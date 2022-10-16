@@ -3,6 +3,8 @@ import 'package:recruit_app/main.dart';
 import 'package:recruit_app/presentation/login/ui/login_screen.dart';
 import 'package:recruit_app/presentation/tabbar_screen/ui/main_screen.dart';
 
+import '../../widget/dialog/message_config/message_config.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -11,6 +13,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<String>(
@@ -28,5 +32,11 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       return const LoginScreen();
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    MessageConfig.init(context);
   }
 }

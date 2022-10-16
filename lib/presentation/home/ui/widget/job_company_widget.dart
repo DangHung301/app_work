@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/presentation/detail_job/ui/detail_job_screen.dart';
+import 'package:recruit_app/presentation/home/bloc/home_cubit.dart';
 
 class JobCompanyWidget extends StatelessWidget {
   final String id;
@@ -7,6 +8,8 @@ class JobCompanyWidget extends StatelessWidget {
   final String title;
   final String rangeSalary;
   final String address;
+  final JobType type;
+  final Function(dynamic) thenPop;
 
   const JobCompanyWidget(
       {Key? key,
@@ -14,18 +17,25 @@ class JobCompanyWidget extends StatelessWidget {
       required this.title,
       required this.rangeSalary,
       required this.address,
-      required this.id})
+      required this.id,
+      required this.thenPop,
+      this.type = JobType.home})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DetailJobScreen(id: id)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailJobScreen(
+                      id: id,
+                      isApplyJob: type == JobType.apply,
+                    ))).then(thenPop);
       },
       child: Container(
-        height: 8 + 26*4,
+        height: 8 + 27 * 4,
         margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -44,7 +54,7 @@ class JobCompanyWidget extends StatelessWidget {
                   child: Image.network(
                     image,
                     fit: BoxFit.cover,
-                    height: 8 + 26*4,
+                    height: 8 + 27 * 4,
                   )),
               flex: 2,
             ),

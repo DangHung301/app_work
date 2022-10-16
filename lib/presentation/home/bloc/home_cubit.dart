@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:get/get.dart';
 import 'package:recruit_app/config/base/base_cubit.dart';
-import 'package:recruit_app/config/base/di.dart';
 import 'package:recruit_app/data/request/home/job_request.dart';
 import 'package:recruit_app/data/response/home/jobs_response.dart';
 import 'package:recruit_app/data/response/home/name_jobs_response.dart';
@@ -10,10 +10,29 @@ import 'package:recruit_app/domain/repositories/repo/home/home_repository.dart';
 import 'package:recruit_app/presentation/home/bloc/home_state.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../data/result.dart';
+
+enum JobType { apply, save, home }
+
+extension ExtensionJob on JobType {
+  String get getTile {
+    switch (this) {
+      case JobType.home:
+        return 'Danh sách công việc';
+      case JobType.save:
+        return 'Danh sách công việc đã lưu';
+      case JobType.apply:
+        return 'Danh sách công việc đã ứng tuyển';
+    }
+  }
+}
+
 class HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(HomeStateIntial());
 
-  HomeRepository repo = getIt<HomeRepository>();
+  HomeRepository repo = Get.find();
+
+  List<JobDataResponse> saveData = [];
 
   BehaviorSubject<List<NameJobsResponse>> jobsSubject =
       BehaviorSubject<List<NameJobsResponse>>();
@@ -29,12 +48,26 @@ class HomeCubit extends BaseCubit<HomeState> {
     showContent();
   }
 
-  Future<void> searchJobs({String search = ''}) async {
-    Timer(const Duration(milliseconds: 500), ()  async {
-      showLoading();
-      await getJobs(search: search);
-      showContent();
+  Future<void> searchJobs({
+    String search = '',
+    JobType type = JobType.home,
+  }) async {
+    Timer(const Duration(milliseconds: 500), () async {
+      if (type == JobType.home) {
+        showLoading();
+        await getJobs(search: search);
+        showContent();
+      } else {
+        if(search.trim().isNotEmpty) {
+          companysSubject.value.items = (saveData )
+              .where((element) => (element.name ?? '').contains(search))
+              .toList();
+        } else {
+          companysSubject.value.items = saveData;
+        }
 
+        companysSubject.add(companysSubject.value);
+      }
     });
   }
 
@@ -49,15 +82,28 @@ class HomeCubit extends BaseCubit<HomeState> {
   }
 
   Future<void> getJobs(
-      {String search = '', int page = 1, int size = 10}) async {
-    final result =
-        await repo.getJobs(JobRequest(page: page, size: size, search: search));
+      {String search = '',
+      int page = 1,
+      int size = 10,
+      JobType type = JobType.home}) async {
+    late Result<JobsResponse> result;
+    showLoading();
+    if (type == JobType.apply) {
+      result = await repo.getJobsApplied();
+    } else if (type == JobType.save) {
+      result = await repo.getJobsSaved();
+    } else {
+      result = await repo
+          .getJobs(JobRequest(page: page, size: size, search: search));
+    }
 
     result.when(
         success: (success) {
+          saveData = success.items  ?? [];
           companysSubject.add(success);
         },
         error: (error) {});
+    showContent();
   }
 
   List<CompanyModel> companys = [

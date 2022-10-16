@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:recruit_app/until/const/string.dart';
 
 extension ExtensionString on String {
@@ -10,6 +9,20 @@ extension ExtensionString on String {
   }
 
   DateTime get convertStringToDate {
-    return DateFormat('dd/MM/yyyy').parse(this);
+    if (contains('/')) {
+      return DateTime.parse(this);
+    } else {
+      return DateTime.parse(this);
+    }
+  }
+
+  String get cleanHtmlText {
+    RegExp exp = RegExp(
+        r"<[^>]*>",
+        multiLine: true,
+        caseSensitive: true
+    );
+
+    return replaceAll(exp, '');
   }
 }
