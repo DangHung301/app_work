@@ -12,4 +12,7 @@ mixin CvRepository {
   Future<Result<MessageResponse>> deleteCv(int id);
   Future<Result<DetailCvResponse>> createCV(CreateCvRequest body);
   Future<Result<UploadFileResponse>> uploadFile(File image);
+  Future<Result<DetailCvResponse>> detailCv(int id);
+  Future<Result<MessageResponse>> addPrimary(String id);
+  Future<Result<MessageResponse>> updateCv(CreateCvRequest body, int id);
 }

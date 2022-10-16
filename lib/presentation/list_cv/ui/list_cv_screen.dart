@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:recruit_app/data/response/cv/cv_response.dart';
 import 'package:recruit_app/presentation/create_cv/ui/create_cv_screen.dart';
@@ -60,17 +61,22 @@ class _ListCVScreenState extends State<ListCVScreen> {
                   children: (data?.items ?? []).isNotEmpty
                       ? (data?.items ?? [])
                           .map((e) => CVWidget(
-                              editCV: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const EditCVScreen()));
-                              },
-                              deleteCV: () {
-                                cubit.deleteCV(e.id ?? 0);
-                              },
-                              model: e))
+                                editCV: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EditCVScreen(
+                                                id: e.id.toString(),
+                                              )));
+                                },
+                                deleteCV: () {
+                                  cubit.deleteCV(e.id ?? 0);
+                                },
+                                model: e,
+                                thenPop: (value) {
+                                  cubit.init();
+                                },
+                              ))
                           .toList()
                       : [
                           const EmptyView(),
@@ -86,7 +92,9 @@ class _ListCVScreenState extends State<ListCVScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const CreateCVSCreen())).then((value) {cubit.init();});
+                  builder: (context) => const CreateCVSCreen())).then((value) {
+            cubit.init();
+          });
         },
         child: Container(
           padding: const EdgeInsets.all(16),

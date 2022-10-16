@@ -1,86 +1,139 @@
 import 'dart:io';
 
-import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
 import 'package:recruit_app/config/base/base_cubit.dart';
-import 'package:recruit_app/domain/model/cv/detail_cv_model.dart';
+import 'package:recruit_app/data/response/cv/detail_cv_response.dart';
+import 'package:recruit_app/domain/repositories/repo/cv/cv_repository.dart';
 import 'package:recruit_app/presentation/edit_cv/bloc/edit_cv_state.dart';
 import 'package:recruit_app/presentation/list_cv/ui/text_edit_controller_model.dart';
+import 'package:recruit_app/widget/dialog/message_config/message_config.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../../config/local/prefs_service.dart';
+import '../../../data/request/cv/create_cv_request.dart';
 
 class EditCVCubit extends BaseCubit<EditCVState> {
   EditCVCubit() : super(EditCVStateInit());
 
-  DetailCVModel fakeDetailCV = DetailCVModel(
-      tieuDeCv: 'Tim viec Mobile',
-      tenNguoiDung: 'Nguyen Van A',
-      namSinh: '30/01/2001',
-      gioiTinh: 'Nam',
-      chieuCao: '1m81',
-      canNang: '72kg',
-      kinhNghiem: '1 năm',
-      tenTruongTrungHocPhoThong: 'ABC',
-      soHoKhau: '19213123',
-      cmnd: '21413214123',
-      soThichh: 'Đá bóng, nghe nhạc, ....',
-      tinhCach: 'Vui vẻ, hoà đồng',
-      queQuan: 'ABC',
-      trinhDoVanHoa: 'Đại học',
-      nguyenVong: 'ABC',
-      nghanhNghe: 'Mobile',
-      dieuKienDacBiet: 'ABC',
-      mucLuong: '100tr',
-      vung: 'ABC',
-      tinh: 'ABC',
-      currentInfmationJob: CurrentInfmationJob(
-          diaChi: 'Ha Noi',
-          congty: 'ABC',
-          nghanhNghe: 'Mobile',
-          anhChungChi:
-              'https://lambanguytin.com/wp-content/uploads/2020/08/H%C3%ACnh-%E1%BA%A3nh-c%E1%BB%A7a-ch%E1%BB%A9ng-ch%E1%BB%89-tin-h%E1%BB%8Dc-c%C6%A1-b%E1%BA%A3n.png'));
+  CvRepository repo = Get.find();
+
+  TextEditControllerModel textEditControllerModel = TextEditControllerModel();
 
   BehaviorSubject<bool> isValidateEdit = BehaviorSubject();
-  BehaviorSubject<DetailCVModel> cvSubject = BehaviorSubject();
-  final BehaviorSubject<File?> imageSubject = BehaviorSubject.seeded(null);
 
-  Future<void> pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    File? result;
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  BehaviorSubject<DetailCvResponse> cvSubject = BehaviorSubject();
 
-    if (image != null) {
-      result = File(image.path);
-    }
-
-    imageSubject.add(result);
+  Future<void> initData(String id) async {
+    showLoading();
+    await getCV(id);
+    showContent();
   }
 
-  void init(TextEditControllerModel model) {
-    cvSubject.add(fakeDetailCV);
-    model.tieuDeCv.text = cvSubject.value.tieuDeCv;
-    model.tenNguoiDung.text = cvSubject.value.tenNguoiDung;
-    model.namSinh.text = cvSubject.value.namSinh;
-    model.gioiTinh.text = cvSubject.value.gioiTinh;
-    model.chieuCao.text = cvSubject.value.chieuCao;
-    model.canNang.text = cvSubject.value.canNang;
-    model.kinhNghiem.text = cvSubject.value.kinhNghiem;
-    model.tenTruongTrungHocPhoThong.text =
-        cvSubject.value.tenTruongTrungHocPhoThong;
-    model.soThichh.text = cvSubject.value.soThichh;
-    model.tinhCach.text = cvSubject.value.tinhCach;
-    model.queQuan.text = cvSubject.value.queQuan;
-    model.trinhDoVanHoa.text = cvSubject.value.trinhDoVanHoa;
-    model.nguyenVong.text = cvSubject.value.nguyenVong;
-    model.nghanhNghe.text = cvSubject.value.nghanhNghe;
-    model.dieuKienDacBiet.text = cvSubject.value.dieuKienDacBiet;
-    model.vung.text = cvSubject.value.vung;
-    model.tinh.text = cvSubject.value.tinh;
-    model.cmnd.text = cvSubject.value.cmnd;
-    model.mucLuong.text = cvSubject.value.mucLuong;
-    model.soHoKhau.text = cvSubject.value.soHoKhau;
-    model.diaChi.text = cvSubject.value.currentInfmationJob.diaChi;
-    model.congty.text = cvSubject.value.currentInfmationJob.congty;
-    model.nghanhNgheHienTai.text =
-        cvSubject.value.currentInfmationJob.nghanhNghe;
+  Future<void> getCV(String id) async {
+    final result = await repo.detailCv(int.parse(id));
+
+    result.when(
+        success: (success) {
+          cvSubject.add(success);
+          initValueEditCv(success);
+        },
+        error: (error) {});
+  }
+
+  void initValueEditCv(DetailCvResponse data) {
+    textEditControllerModel.initValue(
+        tieuDeCv: data.title ?? '',
+        tenNguoiDung: data.displayname ?? '',
+        namSinh: '30/01/2001',
+        gioiTinh: data.gender ?? '',
+        chieuCao: data.height ?? '',
+        canNang: data.weight ?? '',
+        kinhNghiem: data.experience ?? '',
+        tenTruongTrungHocPhoThong: data.namehighschool ?? '',
+        soHoKhau: data.householdnumber ?? '',
+        cmnd: data.cMND ?? '',
+        soThichh: data.interests ?? '',
+        tinhCach: data.character ?? '',
+        queQuan: data.hometown ?? '',
+        trinhDoVanHoa: data.educationallevel ?? '',
+        nguyenVong: data.wish ?? '',
+        nghanhNghe: data.currentjobinformation ?? '',
+        dieuKienDacBiet: data.specialconditions ?? '',
+        mucLuong: data.salary ?? '',
+        vung: data.region ?? '',
+        tinh: data.conscious ?? '',
+        diaChi: data.title ?? '',
+        congty: data.workingcompany ?? '',
+        nghanhNgheHienTai: data.workingcompany ?? '');
+  }
+
+  Future<String> upLoadFile(File file) async {
+    String value = '';
+
+    final result = await repo.uploadFile(file);
+
+    result.when(
+        success: (success) {
+          value = success.filename ?? '';
+        },
+        error: (error) {});
+
+    return value;
+  }
+
+  Future<void> editCV({required File image, required int id}) async {
+    showLoading();
+    String fileName = '';
+    if (image.path.isNotEmpty) {
+      fileName = await upLoadFile(image);
+    } else {
+      fileName = cvSubject.valueOrNull?.certificatephoto ?? '';
+    }
+
+    final result = await repo.updateCv(
+        CreateCvRequest(
+          title: textEditControllerModel.tieuDeCv.text,
+          gender: textEditControllerModel.gioiTinh.text,
+          experience: textEditControllerModel.kinhNghiem.text,
+          height: textEditControllerModel.chieuCao.text,
+          birthday: 1111,
+          careerId: 1,
+          cMND: textEditControllerModel.cmnd.text,
+          character: textEditControllerModel.tinhCach.text,
+          conscious: textEditControllerModel.tinh.text,
+          certificatephoto: fileName,
+          currentaddress: textEditControllerModel.diaChi.text,
+          currentjobinformation: textEditControllerModel.nghanhNghe.text,
+          displayname: textEditControllerModel.tenNguoiDung.text,
+          educationallevel: textEditControllerModel.trinhDoVanHoa.text,
+          hometown: textEditControllerModel.queQuan.text,
+          householdnumber: textEditControllerModel.soHoKhau.text,
+          interests: textEditControllerModel.soThichh.text,
+          namehighschool:
+              textEditControllerModel.tenTruongTrungHocPhoThong.text,
+          region: textEditControllerModel.vung.text,
+          salary: textEditControllerModel.mucLuong.text,
+          specialconditions: textEditControllerModel.dieuKienDacBiet.text,
+          userId: PrefsService.getUserId(),
+          weight: textEditControllerModel.canNang.text,
+          wish: textEditControllerModel.nguyenVong.text,
+          workingcompany: textEditControllerModel.congty.text,
+        ),
+        id);
+
+    result.when(success: (success) {
+      if (success.message == 'CV was updated successfully.') {
+        MessageConfig.show(title: 'Cập nhật CV thành công');
+      } else {
+        MessageConfig.show(
+            title: ((success.message ?? '').isEmpty)
+                ? 'Vui lòng thử lại'
+                : (success.message ?? ''));
+      }
+    }, error: (error) {
+      MessageConfig.show(title: error.toString());
+    });
+    showContent();
   }
 
   void enableValidate() {

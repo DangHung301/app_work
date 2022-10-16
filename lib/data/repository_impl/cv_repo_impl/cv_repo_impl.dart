@@ -39,10 +39,27 @@ class CVRepoImpl extends BaseRepository implements CvRepository {
 
   @override
   Future<Result<UploadFileResponse>> uploadFile(File file) async {
-
     FormData formData = await postFileDio(file: file);
 
     return safeApiCall(apiClient.post(ApiConst.UPLOAD_FILE, data: formData),
-      mapper: (data) => UploadFileResponse.fromJson(data));
+        mapper: (data) => UploadFileResponse.fromJson(data));
+  }
+
+  @override
+  Future<Result<DetailCvResponse>> detailCv(int id) {
+    return safeApiCall(apiClient.get('${ApiConst.GET_CV}/$id'),
+        mapper: (data) => DetailCvResponse.fromJson(data));
+  }
+
+  @override
+  Future<Result<MessageResponse>> addPrimary(String id) {
+    return safeApiCall(apiClient.post(ApiConst.ADD_PRIMARY, data: {'cvId': id}),
+        mapper: (data) => MessageResponse(data));
+  }
+
+  @override
+  Future<Result<MessageResponse>> updateCv(CreateCvRequest body, int id) {
+    return safeApiCall(apiClient.put('${ApiConst.GET_CV}/$id', data: body.toJson()),
+      mapper: (data) => MessageResponse.fromJson(data));
   }
 }

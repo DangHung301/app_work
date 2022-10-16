@@ -9,13 +9,14 @@ import '../../../../data/response/cv/cv_response.dart';
 class CVWidget extends StatelessWidget {
   final Function() editCV;
   final Function() deleteCV;
+  final Function(dynamic) thenPop;
   final CvDataResponse model;
 
   const CVWidget(
       {Key? key,
       required this.editCV,
       required this.deleteCV,
-      required this.model})
+      required this.model, required this.thenPop})
       : super(key: key);
 
   @override
@@ -25,7 +26,7 @@ class CVWidget extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const DetailCVScreen(id: '')));
+                builder: (context) => DetailCVScreen(id: model.id ?? 0))).then(thenPop);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -76,6 +77,19 @@ class CVWidget extends StatelessWidget {
             ),
             Row(
               children: [
+                (model.isprimary ?? false)
+                    ? Row(
+                        children: const [
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          SizedBox(
+                            width: 16,
+                          )
+                        ],
+                      )
+                    : Container(),
                 GestureDetector(
                   onTap: editCV,
                   child: const Icon(

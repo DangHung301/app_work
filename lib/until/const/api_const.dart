@@ -12,4 +12,5 @@ class ApiConst {
   static const String APPLY_JOB = '/api/job/applied';
   static const String GET_CV = '/api/cv';
   static const String UPLOAD_FILE = '/uploads';
+  static const String ADD_PRIMARY = '/api/cv/addPrimaryCV';
 }

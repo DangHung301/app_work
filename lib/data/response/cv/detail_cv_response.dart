@@ -3,7 +3,6 @@ import '../../../presentation/list_cv/ui/text_edit_controller_model.dart';
 import '../../../until/const/string.dart';
 
 class DetailCvResponse {
-  bool? isprimary;
   int? id;
   String? title;
   String? displayname;
@@ -30,15 +29,16 @@ class DetailCvResponse {
   String? currentjobinformation;
   String? currentaddress;
   String? workingcompany;
-  String? userId;
-  int? careerId;
-  String? updatedat;
+  String? certificatephoto;
+  bool? isprimary;
   String? createdat;
+  String? updatedat;
+  String? userId;
+  String? careerId;
 
-  DetailCvResponse({this.isprimary, this.id, this.title, this.displayname, this.email, this.phone, this.birthday, this.gender, this.avatar, this.height, this.weight, this.experience, this.namehighschool, this.householdnumber, this.cMND, this.interests, this.character, this.hometown, this.educationallevel, this.wish, this.specialconditions, this.salary, this.conscious, this.region, this.currentjobinformation, this.currentaddress, this.workingcompany, this.userId, this.careerId, this.updatedat, this.createdat});
+  DetailCvResponse({this.id, this.title, this.displayname, this.email, this.phone, this.birthday, this.gender, this.avatar, this.height, this.weight, this.experience, this.namehighschool, this.householdnumber, this.cMND, this.interests, this.character, this.hometown, this.educationallevel, this.wish, this.specialconditions, this.salary, this.conscious, this.region, this.currentjobinformation, this.currentaddress, this.workingcompany, this.certificatephoto, this.isprimary, this.createdat, this.updatedat, this.userId, this.careerId});
 
   DetailCvResponse.fromJson(Map<String, dynamic> json) {
-    isprimary = json['is_primary'];
     id = json['id'];
     title = json['title'];
     displayname = json['display_name'];
@@ -65,15 +65,16 @@ class DetailCvResponse {
     currentjobinformation = json['current_job_information'];
     currentaddress = json['current_address'];
     workingcompany = json['working_company'];
+    certificatephoto = json['certificate_photo'];
+    isprimary = json['is_primary'];
+    createdat = json['created_at'];
+    updatedat = json['updated_at'];
     userId = json['userId'];
     careerId = json['careerId'];
-    updatedat = json['updated_at'];
-    createdat = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['is_primary'] = isprimary;
     data['id'] = id;
     data['title'] = title;
     data['display_name'] = displayname;
@@ -100,12 +101,16 @@ class DetailCvResponse {
     data['current_job_information'] = currentjobinformation;
     data['current_address'] = currentaddress;
     data['working_company'] = workingcompany;
+    data['certificate_photo'] = certificatephoto;
+    data['is_primary'] = isprimary;
+    data['created_at'] = createdat;
+    data['updated_at'] = updatedat;
     data['userId'] = userId;
     data['careerId'] = careerId;
-    data['updated_at'] = updatedat;
-    data['created_at'] = createdat;
     return data;
   }
+
+
 
   List<RowDataCV> getRow(TextEditControllerModel textEditController) => [
     RowDataCV(
