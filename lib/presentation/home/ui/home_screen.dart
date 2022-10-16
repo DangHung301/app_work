@@ -46,7 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: StateStreamLayout(
         stream: cubit.streamState,
-        error: AppException(StringConst.error, StringConst.xin_vui_long_thu_lai),
+        error:
+            AppException(StringConst.error, StringConst.xin_vui_long_thu_lai),
         textEmpty: StringConst.empty,
         retry: () {},
         child: Container(
@@ -147,8 +148,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        JobsScreen(cubit: cubit)));
+                                    builder: (context) => JobsScreen(
+                                          cubit: cubit,
+                                          careerId: int.parse(e.id ?? ''),
+                                        ))).then((value) {
+                                          cubit.companysSubject.add(JobsResponse()); /// clear data
+                              cubit.init();
+                            });
                           },
                           child: JobWidget(
                               nameJob: e.details ?? '',
@@ -201,15 +207,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: (data?.items ?? [])
                       .map((e) => JobCompanyWidget(
-                        image:
-                            'https://webixytech.com/admin_panel/assets/project_images/1625120256What_is_an_IT_company.jpg',
-                        title: e.name ?? '',
-                        rangeSalary: e.salary ?? '',
-                        address: e.workaddress ?? '',
-                        id: e.id ?? '', thenPop: (value) {
-                          cubit.init();
-                  },
-                      ))
+                            image:
+                                'https://webixytech.com/admin_panel/assets/project_images/1625120256What_is_an_IT_company.jpg',
+                            title: e.name ?? '',
+                            rangeSalary: e.salary ?? '',
+                            address: e.workaddress ?? '',
+                            id: e.id ?? '',
+                            thenPop: (value) {
+                              cubit.init();
+                            },
+                          ))
                       .toList(),
                 ),
               );

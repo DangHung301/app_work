@@ -12,8 +12,14 @@ import '../../../config/base/app_exeption.dart';
 class JobsScreen extends StatefulWidget {
   final HomeCubit cubit;
   final JobType typeJob;
+  final int? careerId;
+  final String? titleAppbar;
 
-  const JobsScreen({Key? key, required this.cubit, this.typeJob = JobType.home})
+  const JobsScreen(
+      {Key? key,
+      required this.cubit,
+      this.typeJob = JobType.home,
+      this.careerId, this.titleAppbar})
       : super(key: key);
 
   @override
@@ -24,14 +30,14 @@ class _JobsScreenState extends State<JobsScreen> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.getJobs(type: widget.typeJob);
+    widget.cubit.getJobs(type: widget.typeJob, careerId: widget.careerId);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        title: widget.typeJob.getTile,
+        title: widget.titleAppbar ?? widget.typeJob.getTile,
         leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);

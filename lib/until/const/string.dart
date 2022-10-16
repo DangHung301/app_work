@@ -32,6 +32,7 @@ class StringConst {
   static const String ngay_sinh = 'Ngày sinh';
   static const String ho_va_ten = 'Họ và tên';
   static const String tuoi = 'Tuổi';
+  static const String email = 'Email';
   static const String sua_thong_tin_ca_nhan = 'Sửa thông tin cá nhân';
   static const String danh_sach_cv = 'Danh sách CV';
   static const String tieu_de_cv = 'Tiêu đề CV';

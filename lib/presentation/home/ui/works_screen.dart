@@ -32,9 +32,17 @@ class WorksScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => JobsScreen(cubit: cubit)));
+                            builder: (context) => JobsScreen(
+                                  cubit: cubit,
+                                  careerId: int.parse(e.id ?? ''),titleAppbar: 'Danh sách công việc ${e.details ?? ''}',
+                                )));
                   },
-                  child: JobWidget(nameJob: e.details ?? '', icon: const Icon(Icons.star, color: colorPrimary1,))))
+                  child: JobWidget(
+                      nameJob: e.details ?? '',
+                      icon: const Icon(
+                        Icons.star,
+                        color: colorPrimary1,
+                      ))))
               .toList(),
         ),
       ),

@@ -2,7 +2,7 @@ class JobRequest {
   int page;
   int size;
   String search;
-  String? careerId;
+  int? careerId;
 
   JobRequest(
       {required this.page, required this.size, required this.search, this.careerId});

@@ -5,8 +5,7 @@ import 'package:recruit_app/presentation/personal_infomation/ui/widget/container
 import 'package:recruit_app/presentation/personal_infomation/ui/widget/drop_down_gender.dart';
 import 'package:recruit_app/until/const/color.dart';
 import 'package:recruit_app/until/const/string.dart';
-import 'package:recruit_app/until/extension/date_time.dart';
-import 'package:recruit_app/until/extension/string.dart';
+import 'package:recruit_app/until/extension/int.dart';
 import 'package:recruit_app/widget/button/button_custom.dart';
 import 'package:recruit_app/widget/dropdown/slide_show_widget.dart';
 import 'package:recruit_app/widget/text_field/text_form_field.dart';
@@ -22,7 +21,7 @@ class EditInfomationScreen extends StatefulWidget {
 
 class _EditInfomationScreenState extends State<EditInfomationScreen> {
   final nameEditController = TextEditingController();
-  final ageEditController = TextEditingController();
+  final emailEditController = TextEditingController();
   final dateEditController = TextEditingController();
   final genderEditController = TextEditingController();
   late DateTime date;
@@ -31,92 +30,95 @@ class _EditInfomationScreenState extends State<EditInfomationScreen> {
   @override
   void initState() {
     super.initState();
-    nameEditController.text = widget.cubit.personalInfotionSubject.value.name;
-    ageEditController.text =
-        widget.cubit.personalInfotionSubject.value.age.toString();
-    gender = widget.cubit.fakeData.gender;
-    date = widget.cubit.fakeData.date.convertStringToDate;
+    nameEditController.text =
+        widget.cubit.personalInfotionSubject.value.displayname ?? '';
+    emailEditController.text =
+        widget.cubit.personalInfotionSubject.value.email ?? '';
+    gender = widget.cubit.personalInfotionSubject.value.gender ?? '';
+
+    date = (widget.cubit.personalInfotionSubject.value.birthday ?? 0)
+        .convertToDateTime;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery
-          .of(context)
-          .size
-          .height * 0.7,
+      height: MediaQuery.of(context).size.height * 0.7,
       width: double.maxFinite,
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
           Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ContainerDataWidget(
-                        title: StringConst.ho_va_ten,
-                        child: TextFormFieldWidget(
-                          controller: nameEditController,
-                          hintText: StringConst.ho_va_ten,
-                          onChange: (value) {},
-                        )),
-                    ContainerDataWidget(
-                        title: StringConst.tuoi,
-                        child: TextFormFieldWidget(
-                          controller: ageEditController,
-                          hintText: StringConst.tuoi,
-                          onChange: (value) {},
-                        )),
-                    ContainerDataWidget(
-                      title: StringConst.gioi_tinh,
-                      child: DropDownGender(
-                          initData:
+            child: Column(
+              children: [
+                ContainerDataWidget(
+                    title: StringConst.ho_va_ten,
+                    child: TextFormFieldWidget(
+                      controller: nameEditController,
+                      hintText: StringConst.ho_va_ten,
+                      onChange: (value) {},
+                    )),
+                ContainerDataWidget(
+                    title: StringConst.email,
+                    child: TextFormFieldWidget(
+                      controller: emailEditController,
+                      hintText: StringConst.email,
+                      onChange: (value) {},
+                    )),
+                ContainerDataWidget(
+                  title: StringConst.gioi_tinh,
+                  child: DropDownGender(
+                      initData:
                           widget.cubit.personalInfotionSubject.value.gender,
-                          items: const ['Nam', 'Nữ'],
-                          onChange: (value) {
-                            gender = value;
-                          }),
-                    ),
-                    ContainerDataWidget(
-                      title: StringConst.ngay_sinh,
-                      child: SlideShowWidget(
-                        child: BirthDayWidget(
-                            initDate: widget.cubit.personalInfotionSubject.value
-                                .date.convertStringToDate,
-                            cubit: widget.cubit,
-                            onChange: (value) {date = value;}),
-                      ),
-                    ),
-                  ],
+                      items: const ['Nam', 'Nữ'],
+                      onChange: (value) {
+                        gender = value;
+                      }),
                 ),
-              )),
+                ContainerDataWidget(
+                  title: StringConst.ngay_sinh,
+                  child: SlideShowWidget(
+                    child: BirthDayWidget(
+                        initDate: (widget.cubit.personalInfotionSubject.value
+                                    .birthday ??
+                                0)
+                            .convertToDateTime,
+                        cubit: widget.cubit,
+                        onChange: (value) {
+                          date = value;
+                        }),
+                  ),
+                ),
+              ],
+            ),
+          )),
           Row(
             children: [
               Expanded(
                   child: ButtonCustomBottom(
-                    title: 'Sửa',
-                    onPressed: () {
-                      widget.cubit.fakeData.name = nameEditController.text;
-                      widget.cubit.fakeData.age =
-                          int.parse(ageEditController.text);
-                      widget.cubit.fakeData.gender = gender;
-                      widget.cubit.fakeData.date = date.formatDdMMYYYY;
-                      widget.cubit.personalInfotionSubject.add(widget.cubit.fakeData);
-                      Navigator.pop(context);
-                    },
-                    color: colorPrimary3,
-                  )),
+                title: 'Sửa',
+                onPressed: () {
+                  widget.cubit.updateUserInfomation(
+                      displayName: nameEditController.text,
+                      email: emailEditController.text,
+                      gender: gender,
+                      birthday: date);
+                  Navigator.pop(context);
+                },
+                color: colorPrimary3,
+              )),
               const SizedBox(
                 width: 16,
               ),
               Expanded(
                   child: ButtonCustomBottom(
-                    title: 'Đóng',
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    color: colorPrimary3,
-                  ))
+                title: 'Đóng',
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                color: colorPrimary3,
+              ))
             ],
           )
         ],

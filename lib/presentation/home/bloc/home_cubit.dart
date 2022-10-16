@@ -85,7 +85,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       {String search = '',
       int page = 1,
       int size = 10,
-      JobType type = JobType.home}) async {
+      JobType type = JobType.home, int? careerId}) async {
     late Result<JobsResponse> result;
     showLoading();
     if (type == JobType.apply) {
@@ -94,7 +94,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       result = await repo.getJobsSaved();
     } else {
       result = await repo
-          .getJobs(JobRequest(page: page, size: size, search: search));
+          .getJobs(JobRequest(page: page, size: size, search: search, careerId: careerId));
     }
 
     result.when(

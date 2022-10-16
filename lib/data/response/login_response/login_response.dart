@@ -1,4 +1,8 @@
-import 'package:recruit_app/domain/model/login_model/login_model.dart';
+import 'package:recruit_app/until/extension/date_time.dart';
+import 'package:recruit_app/until/extension/int.dart';
+
+import '../../../domain/model/detail_job/detail_job_model.dart';
+import '../../../until/const/string.dart';
 
 class LoginResponse {
   UserResponse? user;
@@ -10,9 +14,6 @@ class LoginResponse {
     user = json['user'] != null ? UserResponse?.fromJson(json['user']) : null;
     token = json['token'];
   }
-
-  LoginModel get toModel =>
-      LoginModel(user: user!.toModel , token: token ?? '');
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
@@ -26,27 +27,23 @@ class UserResponse {
   String? id;
   String? email;
   String? displayname;
-  String? createdat;
-  String? updatedat;
+  int? birthday;
+  String? gender;
 
-  UserResponse.empty();
-
-  UserResponse(
-      {this.id, this.email, this.displayname, this.createdat, this.updatedat});
-
-  UserModel get toModel =>
-      UserModel(id: id ?? '',
-          email: email ?? '',
-          displayname: displayname ?? '',
-          createdat: createdat ?? '',
-          updatedat: updatedat ?? '');
+  UserResponse({
+    this.id,
+    this.email,
+    this.displayname,
+    this.birthday,
+    this.gender,
+  });
 
   UserResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
     displayname = json['display_name'];
-    createdat = json['created_at'];
-    updatedat = json['updated_at'];
+    birthday = json['birthday'];
+    gender = json['gender'];
   }
 
   Map<String, dynamic> toJson() {
@@ -54,8 +51,17 @@ class UserResponse {
     data['id'] = id;
     data['email'] = email;
     data['display_name'] = displayname;
-    data['created_at'] = createdat;
-    data['updated_at'] = updatedat;
+    data['birthday'] = birthday;
+    data['gender'] = gender;
     return data;
   }
+
+  List<RowData> rowInfomation() => [
+        RowData(key: StringConst.ho_va_ten, value: displayname ?? ''),
+        RowData(key: StringConst.email, value: email),
+        RowData(
+            key: StringConst.ngay_sinh,
+            value: (birthday ?? 0).convertToDateTime.formatDdMMYYYY),
+        RowData(key: StringConst.gioi_tinh, value: gender),
+      ];
 }
