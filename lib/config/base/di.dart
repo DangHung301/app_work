@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:recruit_app/data/repository_impl/home_repo_impl/home_repo_impl.dart';
 import 'package:recruit_app/data/repository_impl/login_repo_impl/login_repo_impl.dart';
 import 'package:recruit_app/data/repository_impl/user_repo_impl/user_repo_impl.dart';
+import 'package:recruit_app/data/service/home/home_service.dart';
 import 'package:recruit_app/data/service/remote/api_client.dart';
 import 'package:recruit_app/domain/repositories/repo/cv/cv_repository.dart';
 import 'package:recruit_app/domain/repositories/repo/home/home_repository.dart';
@@ -25,4 +26,6 @@ void configApi() async {
   Get.put<HomeRepository>(HomeRepoImpl(getIt<ApiClient>()));
   Get.put<CvRepository>(CVRepoImpl(getIt<ApiClient>()));
   Get.put<UserRepository>(UserRepoImpl(getIt<ApiClient>()));
+
+  Get.put<HomeService>(HomeService(createDio));
 }

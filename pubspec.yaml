@@ -80,15 +80,13 @@ dependencies:
   intl: ^0.17.0
   event_bus: ^2.0.0
   equatable: ^2.0.3
-  retrofit: ^2.0.1
+  retrofit: ^3.3.1
   json_annotation: ^4.0.1
   flutter_screenutil: 5.0.0
   flutter_staggered_grid_view: ^0.4.0
   logger: any
   rxdart: ^0.27.1
   hive: ^2.0.5
-  camera: 0.9.8
-  camera_avfoundation: ^0.9.8+2
   photo_manager: ^2.1.2
   file_picker: ^4.0.2
   expandable: 5.0.1
@@ -104,7 +102,7 @@ dependencies:
   get_it: ^7.2.0
 
   injectable: ^1.4.1
-  freezed: ^0.14.2
+  freezed: ^2.2.0
   tuple: ^2.0.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -113,6 +111,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  retrofit_generator: ^4.2.0
+  build_runner: ^2.3.2      #flutter pub run build_runner build --delete-conflicting-outputs
+  json_serializable: ^6.5.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
